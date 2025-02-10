@@ -5,6 +5,10 @@ output: html_notebook
 
 # Overview
 
+## 100 word abstract
+
+When people make reaches they use many signals to determine where their hand is. This includes efferent-based predictions of hand location as well as afferent proprioceptive signals. Based on context people will rely more on predictions, and efferent signals to determine where their hand is. Here we trained people in the same perturbation with different types of information about the rotation We test explicit strategies to gauge if these contexts had an effect on learning and then compare active and passive localization which respectively do or do not include efferent information. We expect groups with more explicit adaptation to rely on predictions more in their hand localization.
+
 In this experiment participants adapted to a 30 degree rotation, with various kinds of feedback:
 
 1. Regular cursor feedback: "control"
@@ -29,6 +33,19 @@ Both collected in the aligned and rotated phase of the task.
 
 - for reaches: calculate reach deviation at some distance (1/4 of the reach)
 
+# Setup
+
+
+
+Soure project code:
+```{r}
+#dowload and handle data:
+source('R/data.R')
+#scripts for training reaches:
+source('R/reaches.R')
+```
+
+
 # Reach training
 
 1. Calculate baseline (trials 31-45: 5 reaches per target)
@@ -36,3 +53,16 @@ Both collected in the aligned and rotated phase of the task.
 3. Plot a learning curve
 
 4. Fit an exponential to the learning curve
+
+
+
+
+
+
+
+
+
+
+
+
+
