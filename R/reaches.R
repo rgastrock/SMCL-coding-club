@@ -19,12 +19,13 @@ getGroupTraining <- function(group){
   
   participants <- groupParticipants(group = group)
   
-  for (participant in participants[c(1:3)]){
+  for (participant in participants){
     
     participant_df <- getParticipantTraining(group = group, participant = participant)
     
     baseline <- getBaseline(participant_df[['aligned']])
     
+    print(baseline$reachdeviation_deg)
   }
   
 }
@@ -33,25 +34,29 @@ getBaseline <- function(df){
   
   
   df <- df[which(df$trial_num %in% c(31:45)),]
-  str(df)
+  # str(df)
   
   trialnos <- unique(df$trial_num)
+  
+  outdf <- NA
   
   for(trial in trialnos){
     
     tdf <- df[which(df$trial_num == trial),]
     reachdev <- getReachDeviation(tdf)
-    print(reachdev)
-    # 
-    # target <- tdf$targetangle_deg[1]
-    # 
-    # X <- tdf$handx_cm
-    # Y <- tdf$handy_cm
+    reachdev <- data.frame(t(data.frame(reachdev)))
+    
+    if(is.data.frame(outdf)){
+      outdf <- rbind(outdf, reachdev)
+    } else {
+      outdf <- reachdev
+    }
+    
     
     
     
   }
-  
+  return(outdf)
   
   
 }
@@ -60,8 +65,8 @@ getReachDeviation <- function(df){
   
   target <- df$targetangle_deg[1]
   
-  X <- tdf$handx_cm
-  Y <- tdf$handy_cm
+  X <- df$handx_cm
+  Y <- df$handy_cm
   
   # at 1/4 target distance
   #target distance was 10 cm
