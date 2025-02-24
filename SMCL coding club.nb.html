@@ -11,7 +11,7 @@
 
 
 
-<title>SMCL coding club</title>
+<title>SMCL Coding Club</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1746,86 +1746,286 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">SMCL coding club</h1>
+<h1 class="title toc-ignore">SMCL Coding Club</h1>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<div id="overview" class="section level1">
-<h1>Overview</h1>
-<div id="word-abstract" class="section level2">
-<h2>100 word abstract</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJMXh1WUdCZ0luMD0gLS0+XG5cbmBgYHJcbiNcbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1xuYGBgIn0= -->
+<pre class="r"><code>#</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="pre-amble" class="section level1">
+<h1>Pre-amble</h1>
 <p>When people make reaches they use many signals to determine where
 their hand is. This includes efferent-based predictions of hand location
 as well as afferent proprioceptive signals. Based on context people will
 rely more on predictions, and efferent signals to determine where their
 hand is. Here we trained people in the same perturbation with different
-types of information about the rotation We test explicit strategies to
-gauge if these contexts had an effect on learning and then compare
-active and passive localization which respectively do or do not include
-efferent information. We expect groups with more explicit adaptation to
-rely on predictions more in their hand localization.</p>
-<p>In this experiment participants adapted to a 30 degree rotation, with
-various kinds of feedback:</p>
-<ol style="list-style-type: decimal">
-<li>Regular cursor feedback: “control”</li>
-<li>Cursorjump feedback, where the rotation is shown at 1/3 the reach on
-each training trial: “cursorjump”</li>
-<li>A group where both the cursor and hand were visible during training:
-“handview”</li>
-<li>A group that was explained the rotation beforehand:
-“instructed”</li>
-</ol>
-<p>All reaches were to targets at 45, 90, and 135 degrees.</p>
-</div>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>There are several kinds of data that we could analyze:</p>
-<ol style="list-style-type: decimal">
-<li>training reaches</li>
-<li>no-cursor reaches</li>
-<li>passive localization</li>
-<li>active localization</li>
-</ol>
-<p>Both collected in the aligned and rotated phase of the task.</p>
-<div id="analysis-plan" class="section level2">
-<h2>Analysis plan</h2>
-<ul>
-<li>for reaches: calculate reach deviation at some distance (1/4 of the
-reach)</li>
-</ul>
-</div>
-</div>
-<div id="setup" class="section level1">
-<h1>Setup</h1>
-<p>Soure project code:</p>
+types of information about the rotation. We test their explicit
+strategies to gauge if these contexts had effect on learning and then
+compare active and passive hand localization which respectively do or do
+not include efferent information. We expect groups with more explicit
+adaptation to rely on predictions more in their hand localization.</p>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>Before any other steps, we make sure the machine is ready to run the
+code for the project. We install dependencies, and download the
+data.</p>
+<p>The R environment for the is project is recorded in the renv.lock
+file that is part of this project. The code for <code>renv</code> itself
+should have been activated when opening the .Rprofile associated with
+this R Studio project, since it’s embedded in the project. This should
+allow you to restore the exact set of packages used for this
+project.</p>
+<p><strong>This chunk does not run automatically because it can be very
+time consuming. Run it manually to restore the R
+environment:</strong></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJMlJ2ZDJ4dllXUWdZVzVrSUdoaGJtUnNaU0JrWVhSaE9seHVjMjkxY21ObEtDZFNMMlJoZEdFdVVpY3BYRzRqYzJOeWFYQjBjeUJtYjNJZ2RISmhhVzVwYm1jZ2NtVmhZMmhsY3pwY2JuTnZkWEpqWlNnblVpOXlaV0ZqYUdWekxsSW5LVnh1WUdCZ0luMD0gLS0+XG5cbmBgYHJcbiNkb3dsb2FkIGFuZCBoYW5kbGUgZGF0YTpcbnNvdXJjZSgnUi9kYXRhLlInKVxuI3NjcmlwdHMgZm9yIHRyYWluaW5nIHJlYWNoZXM6XG5zb3VyY2UoJ1IvcmVhY2hlcy5SJylcbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2Rvd2xvYWQgYW5kIGhhbmRsZSBkYXRhOlxuc291cmNlKCdSL2RhdGEuUicpXG4jc2NyaXB0cyBmb3IgdHJhaW5pbmcgcmVhY2hlczpcbnNvdXJjZSgnUi9yZWFjaGVzLlInKVxuYGBgIn0= -->
-<pre class="r"><code>#dowload and handle data:
+<!-- rnb-source-begin eyJkYXRhIjoicmVudjo6cmVzdG9yZSgpIn0= -->
+<pre class="r"><code>renv::restore()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Some of the code uses functions from our lab’s <code>Reach</code>
+package which is not on an official package server, but can be installed
+from GitHub, using <code>remotes</code>.</p>
+<p><strong>We do that below, but this chunk does not run by default
+since it’s not necssary. Run manually to install the
+package.</strong></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoJ3JlbW90ZXMnKSIsImlwIDwtIGluc3RhbGxlZC5wYWNrYWdlcygpIiwiaWYgKCdSZWFjaCcgJWluJSBpcFssJ1BhY2thZ2UnXSkgeyIsIiAgaWYgKGlwW3doaWNoKGlwWywnUGFja2FnZSddID09ICdSZWFjaCcpLCdWZXJzaW9uJ10gPCBcIjIwMjUuMDIuMTZcIikgeyIsIiAgICByZW1vdGVzOjppbnN0YWxsX2dpdGh1YigndGhhcnRibS9SZWFjaCcpIiwiICB9IiwifSBlbHNlIHsiLCIgIHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCd0aGFydGJtL1JlYWNoJykiLCJ9Il19 -->
+<pre class="r"><code>library(&#39;remotes&#39;)
+ip &lt;- installed.packages()
+if (&#39;Reach&#39; %in% ip[,&#39;Package&#39;]) {
+  if (ip[which(ip[,&#39;Package&#39;] == &#39;Reach&#39;),&#39;Version&#39;] &lt; &quot;2025.02.16&quot;) {
+    remotes::install_github(&#39;thartbm/Reach&#39;)
+  }
+} else {
+  remotes::install_github(&#39;thartbm/Reach&#39;)
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Finally, we have written some custom functions for this project, that
+we want available as well:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJrYjNkdWJHOWhaQ0JoYm1RZ2FHRnVaR3hsSUdSaGRHRTZYRzV6YjNWeVkyVW9KMUl2WkdGMFlTNVNKeWxjYmlNZ2MyTnlhWEIwY3lCbWIzSWdkSEpoYVc1cGJtY2djbVZoWTJobGN6cGNibk52ZFhKalpTZ25VaTl5WldGamFHVnpMbEluS1Z4dVlHQmdJbjA9IC0tPlxuXG5gYGByXG4jIGRvd25sb2FkIGFuZCBoYW5kbGUgZGF0YTpcbnNvdXJjZSgnUi9kYXRhLlInKVxuIyBzY3JpcHRzIGZvciB0cmFpbmluZyByZWFjaGVzOlxuc291cmNlKCdSL3JlYWNoZXMuUicpXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkb3dubG9hZCBhbmQgaGFuZGxlIGRhdGE6XG5zb3VyY2UoJ1IvZGF0YS5SJylcbiMgc2NyaXB0cyBmb3IgdHJhaW5pbmcgcmVhY2hlczpcbnNvdXJjZSgnUi9yZWFjaGVzLlInKVxuYGBgIn0= -->
+<pre class="r"><code># download and handle data:
 source(&#39;R/data.R&#39;)
-#scripts for training reaches:
+# scripts for training reaches:
 source(&#39;R/reaches.R&#39;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<div id="download-data" class="section level3">
+<h3>Download data</h3>
+<p>Up to now, we prepared the machine by getting code ready. The first
+bit of code we run downloads the data, which is perhaps also a step in
+getting the machine ready for useful stuff. The data is stored on this
+OSF repository: <a href="https://osf.io/m5dt4/">SMCL coding
+club</a>.</p>
+<p><strong>The code below does not run by default, to reduce traffic to
+OSF.io. Run the chunk manually to download the data.</strong></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiZ2V0RGF0YSgpIn0= -->
+<pre class="r"><code>getData()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+</div>
+<div id="overview-of-experiment-and-data" class="section level1">
+<h1>Overview of experiment and data</h1>
+<p>In this experiment participants adapted to a 30 degree rotation, with
+various kinds of feedback:</p>
+<ol style="list-style-type: decimal">
+<li>Regular cursor feedback: “control”</li>
+<li>Cursorjump feedback , where the rotation is shown at 1/3rd the reach
+on each training trial: “cursorjump”</li>
+<li>A group where both the cursor and hand were visible during training:
+“handview”</li>
+<li>A group that was explained the rotation beforehand:
+“instructed”</li>
+</ol>
+<p>All reach were to targets at 45, 90 and 135 degrees.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>There are several kind of data the we could analyse:</p>
+<ol style="list-style-type: decimal">
+<li>Training reaches</li>
+<li>No-cursor reaches</li>
+<li>Passive localization</li>
+<li>Active localization</li>
+</ol>
+<p>Both collected in the aligned and rotated phase of the task. With
+repetitions of each. See illustration below.</p>
+<div class="float">
+<img role="img" aria-label="Schedule of task order for all conditions." src="doc/explicit_task_order.png" style="width:100.0%" alt="Schedule of task order for all conditions." />
+<div class="figcaption">Schedule of task order for all conditions.</div>
+</div>
+</div>
+<div id="analysis-plan" class="section level2">
+<h2>Analysis plan</h2>
+<p>We want to know if the effect of efference copies on hand
+localization decreases when perturbations are more externally attributed
+(or perhaps when there is a larger explicit strategy).</p>
+<div id="training" class="section level3">
+<h3>Training</h3>
+<p>Although not the main variable of interest, we do need to first check
+the training data:</p>
+<ul>
+<li>Did participants learn? Maybe we exclude some. If there is no
+learning, we do not get any hand localization shifts either, or at least
+we can’t rely on them.</li>
+<li>Did all groups learn to the same extent? If they do, we can directly
+compare the size of other variables as well, if not, we’ll have to
+rethink the rest of the analyses.</li>
+<li>Did all groups learn equally quickly? Perhaps this is not that
+important for our main questions, but it might be interesting to
+check.</li>
+</ul>
+</div>
+<div id="no-cursors" class="section level3">
+<h3>No-cursors</h3>
+<p>The manipulations might have an effect on implicit adaptation, here
+measured as without strategy no-cursor reach deviations. They should
+have an effect on explicit adaptation, which is only indirectly
+available in this project as the difference between with and without
+strategy no-cursor reach deviations.</p>
+<ul>
+<li>How do without-strategy no-cursor reach deviations vary with
+condition? If they do, there is an effect on implicit adaptation.</li>
+<li>Are there differences between with- and without strategy no-cursor
+reach deviations? Where we find any such difference, there is definitely
+a strategy.</li>
+<li>We will - for this example project - use the difference between the
+two kinds of no-cursor reach deviation as an estimate of explicit
+strategy, even though we do not really agree with this measure anymore.
+How does that look in each condition?</li>
+</ul>
+</div>
+<div id="hand-localization" class="section level3">
+<h3>Hand localization</h3>
+<p>Here we come to the main questions. We know that visuomotor
+adaptation also changes where we estimate the location of our hand
+within the workspace. We’ve shown before that there is a difference
+between active and passive hand localization. Active hand localization
+depends on predictions using an efference signal. These predictions may
+change depending on how we learn to adapt. For example, when adaptation
+more explicit or more externally attributed (or likely both, in the
+cursorjump and handview groups as compared to the control group). If
+hand localization is an implicit process, then the absence or presence
+of a strategy alone might not affect the predictions we (unconsciously)
+make, and active localization could still have increased hand
+localization shifts whether or not there is a strategy. However,
+external error attribution may (will) also occur implicitly if it is
+clear enough, along with explicit strategies. Nevertheless, in that
+case, predictions may not be based on efferent signals regardless of
+whether they were available.</p>
+<p>To investigate all of this, we do several checks and tests.</p>
+<ul>
+<li>Is there a difference between active and passive localization? At
+least in some of the groups there should be, e.g. in the control
+group.</li>
+<li>Is this different in the different conditions? Do some conditions
+(cursorjump, handview) not show a difference between active and passive
+hand localization shifts.</li>
+<li>Can this potentially be explained by different levels of explicit
+adaptation in the different conditions? Or potentially by external error
+attribution?</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="reach-training" class="section level1">
-<h1>Reach training</h1>
+<h1>Reach Training</h1>
+<div id="reach-deviations" class="section level2">
+<h2>Reach deviations</h2>
+<p>In order to calculate a reach deviation, we can use the
+<code>atan2()</code> function, which takes a Y and X coordinate (note
+the order!), and returns the angle of a line going from the origin of
+the coordinate system (0,0) to the point (X,Y) in radians. The issue
+with this function is that its’ output switches from <span class="math inline">\(+\pi\)</span> to <span class="math inline">\(-\pi\)</span> exactly to the left of the origin of
+the coordinate system. So a small change in position, gives almost the
+maximum change in direction. Especially if we have targets close to this
+switch point, then even with accurate reaches, performance could seem to
+be extremely bad. We need a solution to this.</p>
+<p>In order to avoid this “switch-point” in the output, we rotate reach
+samples (either the whole trajectory, or single points on the reach,
+whatever we’re working with) by -1 times the direction of the target.
+All reaches can then be seen as if the target were at 0°. And applying
+<code>atan2()</code> to such rotated trajectories, immediately gives the
+deviation from the target, so no further steps are necessary.</p>
+<p>This rotation is most easily achieved by multiplying the trajectory
+samples with a <a href="https://en.wikipedia.org/wiki/Rotation_matrix">rotation matrix</a>
+<span class="math inline">\(R\)</span>. This is handled in the
+<code>getReachDeviation()</code> function, that’s defined in the file
+<code>R\reaches.R</code>.</p>
+<p>First we, need to convert the target angle (usually stored in
+degrees) to radians:</p>
+<p><span class="math display">\[ \theta = \pi(-target/180) \]</span></p>
+<p>Then we can use that to construct <span class="math inline">\(R\)</span>:</p>
+<p><span class="math display">\[ R = \begin{bmatrix}
+cos(\theta) &amp; -sin(\theta) \\
+sin(\theta) &amp; cos(\theta) \\
+\end{bmatrix} \]</span></p>
+<p>We get our set of trajectory samples, a vector <span class="math inline">\(v\)</span>:</p>
+<p><span class="math display">\[v = \begin{bmatrix}
+x \\
+y \\
+\end{bmatrix} \]</span></p>
+<p>And multiply it with the rotation matrix:</p>
+<p><span class="math display">\[\bar{v} = Rv \]</span> This new vector
+<span class="math inline">\(\bar{v}\)</span> now contains the rotated
+trajectory samples, and we can apply <code>atan2()</code> to them.</p>
+<blockquote>
+<p>Note that <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> can be vectors, such that <span class="math inline">\(v\)</span> and <span class="math inline">\(\bar{v}\)</span> are not column matrices, but
+rectangular. This can be used to optimize the code for speed. You would
+first select a sample from each reach with the same target, add the
+coordinates to a matrix. Then multiply all of them with the same
+rotation matrix. This means that you only construct the rotation matrix
+for each target once, and all the matrix multiplication is done at the
+same time - with fewer loops, and less time spent in R interpretation.
+The code will be more complicated though, so we will not do this
+here.</p>
+</blockquote>
 <ol style="list-style-type: decimal">
-<li><p>Calculate baseline (trials 31-45: 5 reaches per target)</p></li>
+<li>Calculate baseline (trials 31 - 45: 5 reaches per target)</li>
+</ol>
+<ul>
+<li>use more trials to estimate baseline bias</li>
+<li>make function to remove outliers</li>
+<li>remove outliers from baseline reach deviations</li>
+<li>estimate baseline biases separately for each target</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
 <li><p>Correct rotated reaches for baseline deviations</p></li>
 <li><p>Plot a learning curve</p></li>
-<li><p>Fit an exponential to the learning curve</p></li>
+<li><p>Determine the asymptotic level of adaptation. And perhaps the
+rate of learning.</p></li>
 </ol>
+<p>Do we just take the average reach deviation at the end of the 90
+trial block, or do we fit an exponential curve?</p>
+<p>(5. Check if the top-up blocks are all the same as well?)</p>
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNNQ0wgY29kaW5nIGNsdWIiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIE92ZXJ2aWV3DQoNCiMjIDEwMCB3b3JkIGFic3RyYWN0DQoNCldoZW4gcGVvcGxlIG1ha2UgcmVhY2hlcyB0aGV5IHVzZSBtYW55IHNpZ25hbHMgdG8gZGV0ZXJtaW5lIHdoZXJlIHRoZWlyIGhhbmQgaXMuIFRoaXMgaW5jbHVkZXMgZWZmZXJlbnQtYmFzZWQgcHJlZGljdGlvbnMgb2YgaGFuZCBsb2NhdGlvbiBhcyB3ZWxsIGFzIGFmZmVyZW50IHByb3ByaW9jZXB0aXZlIHNpZ25hbHMuIEJhc2VkIG9uIGNvbnRleHQgcGVvcGxlIHdpbGwgcmVseSBtb3JlIG9uIHByZWRpY3Rpb25zLCBhbmQgZWZmZXJlbnQgc2lnbmFscyB0byBkZXRlcm1pbmUgd2hlcmUgdGhlaXIgaGFuZCBpcy4gSGVyZSB3ZSB0cmFpbmVkIHBlb3BsZSBpbiB0aGUgc2FtZSBwZXJ0dXJiYXRpb24gd2l0aCBkaWZmZXJlbnQgdHlwZXMgb2YgaW5mb3JtYXRpb24gYWJvdXQgdGhlIHJvdGF0aW9uIFdlIHRlc3QgZXhwbGljaXQgc3RyYXRlZ2llcyB0byBnYXVnZSBpZiB0aGVzZSBjb250ZXh0cyBoYWQgYW4gZWZmZWN0IG9uIGxlYXJuaW5nIGFuZCB0aGVuIGNvbXBhcmUgYWN0aXZlIGFuZCBwYXNzaXZlIGxvY2FsaXphdGlvbiB3aGljaCByZXNwZWN0aXZlbHkgZG8gb3IgZG8gbm90IGluY2x1ZGUgZWZmZXJlbnQgaW5mb3JtYXRpb24uIFdlIGV4cGVjdCBncm91cHMgd2l0aCBtb3JlIGV4cGxpY2l0IGFkYXB0YXRpb24gdG8gcmVseSBvbiBwcmVkaWN0aW9ucyBtb3JlIGluIHRoZWlyIGhhbmQgbG9jYWxpemF0aW9uLg0KDQpJbiB0aGlzIGV4cGVyaW1lbnQgcGFydGljaXBhbnRzIGFkYXB0ZWQgdG8gYSAzMCBkZWdyZWUgcm90YXRpb24sIHdpdGggdmFyaW91cyBraW5kcyBvZiBmZWVkYmFjazoNCg0KMS4gUmVndWxhciBjdXJzb3IgZmVlZGJhY2s6ICJjb250cm9sIg0KMi4gQ3Vyc29yanVtcCBmZWVkYmFjaywgd2hlcmUgdGhlIHJvdGF0aW9uIGlzIHNob3duIGF0IDEvMyB0aGUgcmVhY2ggb24gZWFjaCB0cmFpbmluZyB0cmlhbDogImN1cnNvcmp1bXAiDQozLiBBIGdyb3VwIHdoZXJlIGJvdGggdGhlIGN1cnNvciBhbmQgaGFuZCB3ZXJlIHZpc2libGUgZHVyaW5nIHRyYWluaW5nOiAiaGFuZHZpZXciDQo0LiBBIGdyb3VwIHRoYXQgd2FzIGV4cGxhaW5lZCB0aGUgcm90YXRpb24gYmVmb3JlaGFuZDogImluc3RydWN0ZWQiDQoNCkFsbCByZWFjaGVzIHdlcmUgdG8gdGFyZ2V0cyBhdCA0NSwgOTAsIGFuZCAxMzUgZGVncmVlcy4NCg0KIyBEYXRhDQoNClRoZXJlIGFyZSBzZXZlcmFsIGtpbmRzIG9mIGRhdGEgdGhhdCB3ZSBjb3VsZCBhbmFseXplOg0KDQoxLiB0cmFpbmluZyByZWFjaGVzDQoyLiBuby1jdXJzb3IgcmVhY2hlcw0KMy4gcGFzc2l2ZSBsb2NhbGl6YXRpb24NCjQuIGFjdGl2ZSBsb2NhbGl6YXRpb24NCg0KQm90aCBjb2xsZWN0ZWQgaW4gdGhlIGFsaWduZWQgYW5kIHJvdGF0ZWQgcGhhc2Ugb2YgdGhlIHRhc2suDQoNCiMjIEFuYWx5c2lzIHBsYW4NCg0KLSBmb3IgcmVhY2hlczogY2FsY3VsYXRlIHJlYWNoIGRldmlhdGlvbiBhdCBzb21lIGRpc3RhbmNlICgxLzQgb2YgdGhlIHJlYWNoKQ0KDQojIFNldHVwDQoNCg0KDQpTb3VyZSBwcm9qZWN0IGNvZGU6DQpgYGB7cn0NCiNkb3dsb2FkIGFuZCBoYW5kbGUgZGF0YToNCnNvdXJjZSgnUi9kYXRhLlInKQ0KI3NjcmlwdHMgZm9yIHRyYWluaW5nIHJlYWNoZXM6DQpzb3VyY2UoJ1IvcmVhY2hlcy5SJykNCmBgYA0KDQoNCiMgUmVhY2ggdHJhaW5pbmcNCg0KMS4gQ2FsY3VsYXRlIGJhc2VsaW5lICh0cmlhbHMgMzEtNDU6IDUgcmVhY2hlcyBwZXIgdGFyZ2V0KQ0KMi4gQ29ycmVjdCByb3RhdGVkIHJlYWNoZXMgZm9yIGJhc2VsaW5lIGRldmlhdGlvbnMNCjMuIFBsb3QgYSBsZWFybmluZyBjdXJ2ZQ0KDQo0LiBGaXQgYW4gZXhwb25lbnRpYWwgdG8gdGhlIGxlYXJuaW5nIGN1cnZlDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNNQ0wgQ29kaW5nIENsdWIiDQpvdXRwdXQ6DQogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBkZl9wcmludDogcGFnZWQNCiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0DQogIHdvcmRfZG9jdW1lbnQ6IGRlZmF1bHQNCi0tLQ0KDQpgYGB7cn0NCiMNCmBgYA0KDQojIFByZS1hbWJsZQ0KDQpXaGVuIHBlb3BsZSBtYWtlIHJlYWNoZXMgdGhleSB1c2UgbWFueSBzaWduYWxzIHRvIGRldGVybWluZSB3aGVyZSB0aGVpciBoYW5kIGlzLiBUaGlzIGluY2x1ZGVzIGVmZmVyZW50LWJhc2VkIHByZWRpY3Rpb25zIG9mIGhhbmQgbG9jYXRpb24gYXMgd2VsbCBhcyBhZmZlcmVudCBwcm9wcmlvY2VwdGl2ZSBzaWduYWxzLiBCYXNlZCBvbiBjb250ZXh0IHBlb3BsZSB3aWxsIHJlbHkgbW9yZSBvbiBwcmVkaWN0aW9ucywgYW5kIGVmZmVyZW50IHNpZ25hbHMgdG8gZGV0ZXJtaW5lIHdoZXJlIHRoZWlyIGhhbmQgaXMuIEhlcmUgd2UgdHJhaW5lZCBwZW9wbGUgaW4gdGhlIHNhbWUgcGVydHVyYmF0aW9uIHdpdGggZGlmZmVyZW50IHR5cGVzIG9mIGluZm9ybWF0aW9uIGFib3V0IHRoZSByb3RhdGlvbi4gV2UgdGVzdCB0aGVpciBleHBsaWNpdCBzdHJhdGVnaWVzIHRvIGdhdWdlIGlmIHRoZXNlIGNvbnRleHRzIGhhZCBlZmZlY3Qgb24gbGVhcm5pbmcgYW5kIHRoZW4gY29tcGFyZSBhY3RpdmUgYW5kIHBhc3NpdmUgaGFuZCBsb2NhbGl6YXRpb24gd2hpY2ggcmVzcGVjdGl2ZWx5IGRvIG9yIGRvIG5vdCBpbmNsdWRlIGVmZmVyZW50IGluZm9ybWF0aW9uLiBXZSBleHBlY3QgZ3JvdXBzIHdpdGggbW9yZSBleHBsaWNpdCBhZGFwdGF0aW9uIHRvIHJlbHkgb24gcHJlZGljdGlvbnMgbW9yZSBpbiB0aGVpciBoYW5kIGxvY2FsaXphdGlvbi4NCg0KIyMgU2V0dXANCg0KQmVmb3JlIGFueSBvdGhlciBzdGVwcywgd2UgbWFrZSBzdXJlIHRoZSBtYWNoaW5lIGlzIHJlYWR5IHRvIHJ1biB0aGUgY29kZSBmb3IgdGhlIHByb2plY3QuIFdlIGluc3RhbGwgZGVwZW5kZW5jaWVzLCBhbmQgZG93bmxvYWQgdGhlIGRhdGEuDQoNClRoZSBSIGVudmlyb25tZW50IGZvciB0aGUgaXMgcHJvamVjdCBpcyByZWNvcmRlZCBpbiB0aGUgcmVudi5sb2NrIGZpbGUgdGhhdCBpcyBwYXJ0IG9mIHRoaXMgcHJvamVjdC4gVGhlIGNvZGUgZm9yIGByZW52YCBpdHNlbGYgc2hvdWxkIGhhdmUgYmVlbiBhY3RpdmF0ZWQgd2hlbiBvcGVuaW5nIHRoZSAuUnByb2ZpbGUgYXNzb2NpYXRlZCB3aXRoIHRoaXMgUiBTdHVkaW8gcHJvamVjdCwgc2luY2UgaXQncyBlbWJlZGRlZCBpbiB0aGUgcHJvamVjdC4gVGhpcyBzaG91bGQgYWxsb3cgeW91IHRvIHJlc3RvcmUgdGhlIGV4YWN0IHNldCBvZiBwYWNrYWdlcyB1c2VkIGZvciB0aGlzIHByb2plY3QuDQoNCioqVGhpcyBjaHVuayBkb2VzIG5vdCBydW4gYXV0b21hdGljYWxseSBiZWNhdXNlIGl0IGNhbiBiZSB2ZXJ5IHRpbWUgY29uc3VtaW5nLiBSdW4gaXQgbWFudWFsbHkgdG8gcmVzdG9yZSB0aGUgUiBlbnZpcm9ubWVudDoqKg0KDQpgYGB7ciBldmFsPUZ9DQpyZW52OjpyZXN0b3JlKCkNCmBgYA0KDQpTb21lIG9mIHRoZSBjb2RlIHVzZXMgZnVuY3Rpb25zIGZyb20gb3VyIGxhYidzIGBSZWFjaGAgcGFja2FnZSB3aGljaCBpcyBub3Qgb24gYW4gb2ZmaWNpYWwgcGFja2FnZSBzZXJ2ZXIsIGJ1dCBjYW4gYmUgaW5zdGFsbGVkIGZyb20gR2l0SHViLCB1c2luZyBgcmVtb3Rlc2AuDQoNCioqV2UgZG8gdGhhdCBiZWxvdywgYnV0IHRoaXMgY2h1bmsgZG9lcyBub3QgcnVuIGJ5IGRlZmF1bHQgc2luY2UgaXQncyBub3QgbmVjc3NhcnkuIFJ1biBtYW51YWxseSB0byBpbnN0YWxsIHRoZSBwYWNrYWdlLioqDQoNCmBgYHtyIGV2YWw9Rn0NCmxpYnJhcnkoJ3JlbW90ZXMnKQ0KaXAgPC0gaW5zdGFsbGVkLnBhY2thZ2VzKCkNCmlmICgnUmVhY2gnICVpbiUgaXBbLCdQYWNrYWdlJ10pIHsNCiAgaWYgKGlwW3doaWNoKGlwWywnUGFja2FnZSddID09ICdSZWFjaCcpLCdWZXJzaW9uJ10gPCAiMjAyNS4wMi4xNiIpIHsNCiAgICByZW1vdGVzOjppbnN0YWxsX2dpdGh1YigndGhhcnRibS9SZWFjaCcpDQogIH0NCn0gZWxzZSB7DQogIHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCd0aGFydGJtL1JlYWNoJykNCn0NCmBgYA0KDQpGaW5hbGx5LCB3ZSBoYXZlIHdyaXR0ZW4gc29tZSBjdXN0b20gZnVuY3Rpb25zIGZvciB0aGlzIHByb2plY3QsIHRoYXQgd2Ugd2FudCBhdmFpbGFibGUgYXMgd2VsbDoNCg0KYGBge3J9DQojIGRvd25sb2FkIGFuZCBoYW5kbGUgZGF0YToNCnNvdXJjZSgnUi9kYXRhLlInKQ0KIyBzY3JpcHRzIGZvciB0cmFpbmluZyByZWFjaGVzOg0Kc291cmNlKCdSL3JlYWNoZXMuUicpDQpgYGANCg0KIyMjIERvd25sb2FkIGRhdGENCg0KVXAgdG8gbm93LCB3ZSBwcmVwYXJlZCB0aGUgbWFjaGluZSBieSBnZXR0aW5nIGNvZGUgcmVhZHkuIFRoZSBmaXJzdCBiaXQgb2YgY29kZSB3ZSBydW4gZG93bmxvYWRzIHRoZSBkYXRhLCB3aGljaCBpcyBwZXJoYXBzIGFsc28gYSBzdGVwIGluIGdldHRpbmcgdGhlIG1hY2hpbmUgcmVhZHkgZm9yIHVzZWZ1bCBzdHVmZi4gVGhlIGRhdGEgaXMgc3RvcmVkIG9uIHRoaXMgT1NGIHJlcG9zaXRvcnk6IFtTTUNMIGNvZGluZyBjbHViXShodHRwczovL29zZi5pby9tNWR0NC8pLg0KDQoqKlRoZSBjb2RlIGJlbG93IGRvZXMgbm90IHJ1biBieSBkZWZhdWx0LCB0byByZWR1Y2UgdHJhZmZpYyB0byBPU0YuaW8uIFJ1biB0aGUgY2h1bmsgbWFudWFsbHkgdG8gZG93bmxvYWQgdGhlIGRhdGEuKioNCg0KYGBge3IgZXZhbD1GfQ0KZ2V0RGF0YSgpDQpgYGANCg0KIyBPdmVydmlldyBvZiBleHBlcmltZW50IGFuZCBkYXRhDQoNCkluIHRoaXMgZXhwZXJpbWVudCBwYXJ0aWNpcGFudHMgYWRhcHRlZCB0byBhIDMwIGRlZ3JlZSByb3RhdGlvbiwgd2l0aCB2YXJpb3VzIGtpbmRzIG9mIGZlZWRiYWNrOg0KDQoxLiBSZWd1bGFyIGN1cnNvciBmZWVkYmFjazogImNvbnRyb2wiDQoyLiBDdXJzb3JqdW1wIGZlZWRiYWNrICwgd2hlcmUgdGhlIHJvdGF0aW9uIGlzIHNob3duIGF0IDEvM3JkIHRoZSByZWFjaCBvbiBlYWNoIHRyYWluaW5nIHRyaWFsOiAiY3Vyc29yanVtcCINCjMuIEEgZ3JvdXAgd2hlcmUgYm90aCB0aGUgY3Vyc29yIGFuZCBoYW5kIHdlcmUgdmlzaWJsZSBkdXJpbmcgdHJhaW5pbmc6ICJoYW5kdmlldyINCjQuIEEgZ3JvdXAgdGhhdCB3YXMgZXhwbGFpbmVkIHRoZSByb3RhdGlvbiBiZWZvcmVoYW5kOiAiaW5zdHJ1Y3RlZCINCg0KQWxsIHJlYWNoIHdlcmUgdG8gdGFyZ2V0cyBhdCA0NSwgOTAgYW5kIDEzNSBkZWdyZWVzLg0KDQojIyBEYXRhDQoNClRoZXJlIGFyZSBzZXZlcmFsIGtpbmQgb2YgZGF0YSB0aGUgd2UgY291bGQgYW5hbHlzZToNCg0KMS4gVHJhaW5pbmcgcmVhY2hlcw0KMi4gTm8tY3Vyc29yIHJlYWNoZXMNCjMuIFBhc3NpdmUgbG9jYWxpemF0aW9uDQo0LiBBY3RpdmUgbG9jYWxpemF0aW9uDQoNCkJvdGggY29sbGVjdGVkIGluIHRoZSBhbGlnbmVkIGFuZCByb3RhdGVkIHBoYXNlIG9mIHRoZSB0YXNrLiBXaXRoIHJlcGV0aXRpb25zIG9mIGVhY2guIFNlZSBpbGx1c3RyYXRpb24gYmVsb3cuDQoNCiFbU2NoZWR1bGUgb2YgdGFzayBvcmRlciBmb3IgYWxsIGNvbmRpdGlvbnMuXShkb2MvZXhwbGljaXRfdGFza19vcmRlci5wbmcpe3dpZHRoPTEwMCV9DQoNCg0KIyMgQW5hbHlzaXMgcGxhbg0KDQpXZSB3YW50IHRvIGtub3cgaWYgdGhlIGVmZmVjdCBvZiBlZmZlcmVuY2UgY29waWVzIG9uIGhhbmQgbG9jYWxpemF0aW9uIGRlY3JlYXNlcyB3aGVuIHBlcnR1cmJhdGlvbnMgYXJlIG1vcmUgZXh0ZXJuYWxseSBhdHRyaWJ1dGVkIChvciBwZXJoYXBzIHdoZW4gdGhlcmUgaXMgYSBsYXJnZXIgZXhwbGljaXQgc3RyYXRlZ3kpLg0KDQojIyMgVHJhaW5pbmcNCg0KQWx0aG91Z2ggbm90IHRoZSBtYWluIHZhcmlhYmxlIG9mIGludGVyZXN0LCB3ZSBkbyBuZWVkIHRvIGZpcnN0IGNoZWNrIHRoZSB0cmFpbmluZyBkYXRhOg0KDQotIERpZCBwYXJ0aWNpcGFudHMgbGVhcm4/IE1heWJlIHdlIGV4Y2x1ZGUgc29tZS4gSWYgdGhlcmUgaXMgbm8gbGVhcm5pbmcsIHdlIGRvIG5vdCBnZXQgYW55IGhhbmQgbG9jYWxpemF0aW9uIHNoaWZ0cyBlaXRoZXIsIG9yIGF0IGxlYXN0IHdlIGNhbid0IHJlbHkgb24gdGhlbS4NCi0gRGlkIGFsbCBncm91cHMgbGVhcm4gdG8gdGhlIHNhbWUgZXh0ZW50PyBJZiB0aGV5IGRvLCB3ZSBjYW4gZGlyZWN0bHkgY29tcGFyZSB0aGUgc2l6ZSBvZiBvdGhlciB2YXJpYWJsZXMgYXMgd2VsbCwgaWYgbm90LCB3ZSdsbCBoYXZlIHRvIHJldGhpbmsgdGhlIHJlc3Qgb2YgdGhlIGFuYWx5c2VzLg0KLSBEaWQgYWxsIGdyb3VwcyBsZWFybiBlcXVhbGx5IHF1aWNrbHk/IFBlcmhhcHMgdGhpcyBpcyBub3QgdGhhdCBpbXBvcnRhbnQgZm9yIG91ciBtYWluIHF1ZXN0aW9ucywgYnV0IGl0IG1pZ2h0IGJlIGludGVyZXN0aW5nIHRvIGNoZWNrLg0KDQojIyMgTm8tY3Vyc29ycw0KDQpUaGUgbWFuaXB1bGF0aW9ucyBtaWdodCBoYXZlIGFuIGVmZmVjdCBvbiBpbXBsaWNpdCBhZGFwdGF0aW9uLCBoZXJlIG1lYXN1cmVkIGFzIHdpdGhvdXQgc3RyYXRlZ3kgbm8tY3Vyc29yIHJlYWNoIGRldmlhdGlvbnMuIFRoZXkgc2hvdWxkIGhhdmUgYW4gZWZmZWN0IG9uIGV4cGxpY2l0IGFkYXB0YXRpb24sIHdoaWNoIGlzIG9ubHkgaW5kaXJlY3RseSBhdmFpbGFibGUgaW4gdGhpcyBwcm9qZWN0IGFzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gd2l0aCBhbmQgd2l0aG91dCBzdHJhdGVneSBuby1jdXJzb3IgcmVhY2ggZGV2aWF0aW9ucy4NCg0KLSBIb3cgZG8gd2l0aG91dC1zdHJhdGVneSBuby1jdXJzb3IgcmVhY2ggZGV2aWF0aW9ucyB2YXJ5IHdpdGggY29uZGl0aW9uPyBJZiB0aGV5IGRvLCB0aGVyZSBpcyBhbiBlZmZlY3Qgb24gaW1wbGljaXQgYWRhcHRhdGlvbi4NCi0gQXJlIHRoZXJlIGRpZmZlcmVuY2VzIGJldHdlZW4gd2l0aC0gYW5kIHdpdGhvdXQgc3RyYXRlZ3kgbm8tY3Vyc29yIHJlYWNoIGRldmlhdGlvbnM/IFdoZXJlIHdlIGZpbmQgYW55IHN1Y2ggZGlmZmVyZW5jZSwgdGhlcmUgaXMgZGVmaW5pdGVseSBhIHN0cmF0ZWd5Lg0KLSBXZSB3aWxsIC0gZm9yIHRoaXMgZXhhbXBsZSBwcm9qZWN0IC0gdXNlIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIHR3byBraW5kcyBvZiBuby1jdXJzb3IgcmVhY2ggZGV2aWF0aW9uIGFzIGFuIGVzdGltYXRlIG9mIGV4cGxpY2l0IHN0cmF0ZWd5LCBldmVuIHRob3VnaCB3ZSBkbyBub3QgcmVhbGx5IGFncmVlIHdpdGggdGhpcyBtZWFzdXJlIGFueW1vcmUuIEhvdyBkb2VzIHRoYXQgbG9vayBpbiBlYWNoIGNvbmRpdGlvbj8NCg0KIyMjIEhhbmQgbG9jYWxpemF0aW9uDQoNCkhlcmUgd2UgY29tZSB0byB0aGUgbWFpbiBxdWVzdGlvbnMuIFdlIGtub3cgdGhhdCB2aXN1b21vdG9yIGFkYXB0YXRpb24gYWxzbyBjaGFuZ2VzIHdoZXJlIHdlIGVzdGltYXRlIHRoZSBsb2NhdGlvbiBvZiBvdXIgaGFuZCB3aXRoaW4gdGhlIHdvcmtzcGFjZS4gV2UndmUgc2hvd24gYmVmb3JlIHRoYXQgdGhlcmUgaXMgYSBkaWZmZXJlbmNlIGJldHdlZW4gYWN0aXZlIGFuZCBwYXNzaXZlIGhhbmQgbG9jYWxpemF0aW9uLiBBY3RpdmUgaGFuZCBsb2NhbGl6YXRpb24gZGVwZW5kcyBvbiBwcmVkaWN0aW9ucyB1c2luZyBhbiBlZmZlcmVuY2Ugc2lnbmFsLiBUaGVzZSBwcmVkaWN0aW9ucyBtYXkgY2hhbmdlIGRlcGVuZGluZyBvbiBob3cgd2UgbGVhcm4gdG8gYWRhcHQuIEZvciBleGFtcGxlLCB3aGVuIGFkYXB0YXRpb24gbW9yZSBleHBsaWNpdCBvciBtb3JlIGV4dGVybmFsbHkgYXR0cmlidXRlZCAob3IgbGlrZWx5IGJvdGgsIGluIHRoZSBjdXJzb3JqdW1wIGFuZCBoYW5kdmlldyBncm91cHMgYXMgY29tcGFyZWQgdG8gdGhlIGNvbnRyb2wgZ3JvdXApLiBJZiBoYW5kIGxvY2FsaXphdGlvbiBpcyBhbiBpbXBsaWNpdCBwcm9jZXNzLCB0aGVuIHRoZSBhYnNlbmNlIG9yIHByZXNlbmNlIG9mIGEgc3RyYXRlZ3kgYWxvbmUgbWlnaHQgbm90IGFmZmVjdCB0aGUgcHJlZGljdGlvbnMgd2UgKHVuY29uc2Npb3VzbHkpIG1ha2UsIGFuZCBhY3RpdmUgbG9jYWxpemF0aW9uIGNvdWxkIHN0aWxsIGhhdmUgaW5jcmVhc2VkIGhhbmQgbG9jYWxpemF0aW9uIHNoaWZ0cyB3aGV0aGVyIG9yIG5vdCB0aGVyZSBpcyBhIHN0cmF0ZWd5LiBIb3dldmVyLCBleHRlcm5hbCBlcnJvciBhdHRyaWJ1dGlvbiBtYXkgKHdpbGwpIGFsc28gb2NjdXIgaW1wbGljaXRseSBpZiBpdCBpcyBjbGVhciBlbm91Z2gsIGFsb25nIHdpdGggZXhwbGljaXQgc3RyYXRlZ2llcy4gTmV2ZXJ0aGVsZXNzLCBpbiB0aGF0IGNhc2UsIHByZWRpY3Rpb25zIG1heSBub3QgYmUgYmFzZWQgb24gZWZmZXJlbnQgc2lnbmFscyByZWdhcmRsZXNzIG9mIHdoZXRoZXIgdGhleSB3ZXJlIGF2YWlsYWJsZS4NCg0KVG8gaW52ZXN0aWdhdGUgYWxsIG9mIHRoaXMsIHdlIGRvIHNldmVyYWwgY2hlY2tzIGFuZCB0ZXN0cy4gDQoNCi0gSXMgdGhlcmUgYSBkaWZmZXJlbmNlIGJldHdlZW4gYWN0aXZlIGFuZCBwYXNzaXZlIGxvY2FsaXphdGlvbj8gQXQgbGVhc3QgaW4gc29tZSBvZiB0aGUgZ3JvdXBzIHRoZXJlIHNob3VsZCBiZSwgZS5nLiBpbiB0aGUgY29udHJvbCBncm91cC4NCi0gSXMgdGhpcyBkaWZmZXJlbnQgaW4gdGhlIGRpZmZlcmVudCBjb25kaXRpb25zPyBEbyBzb21lIGNvbmRpdGlvbnMgKGN1cnNvcmp1bXAsIGhhbmR2aWV3KSBub3Qgc2hvdyBhIGRpZmZlcmVuY2UgYmV0d2VlbiBhY3RpdmUgYW5kIHBhc3NpdmUgaGFuZCBsb2NhbGl6YXRpb24gc2hpZnRzLg0KLSBDYW4gdGhpcyBwb3RlbnRpYWxseSBiZSBleHBsYWluZWQgYnkgZGlmZmVyZW50IGxldmVscyBvZiBleHBsaWNpdCBhZGFwdGF0aW9uIGluIHRoZSBkaWZmZXJlbnQgY29uZGl0aW9ucz8gT3IgcG90ZW50aWFsbHkgYnkgZXh0ZXJuYWwgZXJyb3IgYXR0cmlidXRpb24/DQoNCiMgUmVhY2ggVHJhaW5pbmcNCg0KIyMgUmVhY2ggZGV2aWF0aW9ucw0KDQpJbiBvcmRlciB0byBjYWxjdWxhdGUgYSByZWFjaCBkZXZpYXRpb24sIHdlIGNhbiB1c2UgdGhlIGBhdGFuMigpYCBmdW5jdGlvbiwgd2hpY2ggdGFrZXMgYSBZIGFuZCBYIGNvb3JkaW5hdGUgKG5vdGUgdGhlIG9yZGVyISksIGFuZCByZXR1cm5zIHRoZSBhbmdsZSBvZiBhIGxpbmUgZ29pbmcgZnJvbSB0aGUgb3JpZ2luIG9mIHRoZSBjb29yZGluYXRlIHN5c3RlbSAoMCwwKSB0byB0aGUgcG9pbnQgKFgsWSkgaW4gcmFkaWFucy4gVGhlIGlzc3VlIHdpdGggdGhpcyBmdW5jdGlvbiBpcyB0aGF0IGl0cycgb3V0cHV0IHN3aXRjaGVzIGZyb20gJCtccGkkIHRvICQtXHBpJCBleGFjdGx5IHRvIHRoZSBsZWZ0IG9mIHRoZSBvcmlnaW4gb2YgdGhlIGNvb3JkaW5hdGUgc3lzdGVtLiBTbyBhIHNtYWxsIGNoYW5nZSBpbiBwb3NpdGlvbiwgZ2l2ZXMgYWxtb3N0IHRoZSBtYXhpbXVtIGNoYW5nZSBpbiBkaXJlY3Rpb24uIEVzcGVjaWFsbHkgaWYgd2UgaGF2ZSB0YXJnZXRzIGNsb3NlIHRvIHRoaXMgc3dpdGNoIHBvaW50LCB0aGVuIGV2ZW4gd2l0aCBhY2N1cmF0ZSByZWFjaGVzLCBwZXJmb3JtYW5jZSBjb3VsZCBzZWVtIHRvIGJlIGV4dHJlbWVseSBiYWQuIFdlIG5lZWQgYSBzb2x1dGlvbiB0byB0aGlzLg0KDQpJbiBvcmRlciB0byBhdm9pZCB0aGlzICJzd2l0Y2gtcG9pbnQiIGluIHRoZSBvdXRwdXQsIHdlIHJvdGF0ZSByZWFjaCBzYW1wbGVzIChlaXRoZXIgdGhlIHdob2xlIHRyYWplY3RvcnksIG9yIHNpbmdsZSBwb2ludHMgb24gdGhlIHJlYWNoLCB3aGF0ZXZlciB3ZSdyZSB3b3JraW5nIHdpdGgpIGJ5IC0xIHRpbWVzIHRoZSBkaXJlY3Rpb24gb2YgdGhlIHRhcmdldC4gQWxsIHJlYWNoZXMgY2FuIHRoZW4gYmUgc2VlbiBhcyBpZiB0aGUgdGFyZ2V0IHdlcmUgYXQgMMKwLiBBbmQgYXBwbHlpbmcgYGF0YW4yKClgIHRvIHN1Y2ggcm90YXRlZCB0cmFqZWN0b3JpZXMsIGltbWVkaWF0ZWx5IGdpdmVzIHRoZSBkZXZpYXRpb24gZnJvbSB0aGUgdGFyZ2V0LCBzbyBubyBmdXJ0aGVyIHN0ZXBzIGFyZSBuZWNlc3NhcnkuDQoNClRoaXMgcm90YXRpb24gaXMgbW9zdCBlYXNpbHkgYWNoaWV2ZWQgYnkgbXVsdGlwbHlpbmcgdGhlIHRyYWplY3Rvcnkgc2FtcGxlcyB3aXRoIGEgW3JvdGF0aW9uIG1hdHJpeF0oaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvUm90YXRpb25fbWF0cml4KSAkUiQuIFRoaXMgaXMgaGFuZGxlZCBpbiB0aGUgYGdldFJlYWNoRGV2aWF0aW9uKClgIGZ1bmN0aW9uLCB0aGF0J3MgZGVmaW5lZCBpbiB0aGUgZmlsZSBgUlxyZWFjaGVzLlJgLg0KDQpGaXJzdCB3ZSwgbmVlZCB0byBjb252ZXJ0IHRoZSB0YXJnZXQgYW5nbGUgKHVzdWFsbHkgc3RvcmVkIGluIGRlZ3JlZXMpIHRvIHJhZGlhbnM6DQoNCiQkIFx0aGV0YSA9IFxwaSgtdGFyZ2V0LzE4MCkgJCQNCg0KVGhlbiB3ZSBjYW4gdXNlIHRoYXQgdG8gY29uc3RydWN0ICRSJDoNCg0KJCQgUiA9IFxiZWdpbntibWF0cml4fQ0KY29zKFx0aGV0YSkgJiAtc2luKFx0aGV0YSkgXFwNCnNpbihcdGhldGEpICYgY29zKFx0aGV0YSkgXFwNClxlbmR7Ym1hdHJpeH0gJCQNCg0KV2UgZ2V0IG91ciBzZXQgb2YgdHJhamVjdG9yeSBzYW1wbGVzLCBhIHZlY3RvciAkdiQ6DQoNCiQkdiA9IFxiZWdpbntibWF0cml4fQ0KeCBcXA0KeSBcXA0KXGVuZHtibWF0cml4fSAkJA0KDQpBbmQgbXVsdGlwbHkgaXQgd2l0aCB0aGUgcm90YXRpb24gbWF0cml4Og0KDQokJFxiYXJ7dn0gPSBSdiAkJA0KVGhpcyBuZXcgdmVjdG9yICRcYmFye3Z9JCBub3cgY29udGFpbnMgdGhlIHJvdGF0ZWQgdHJhamVjdG9yeSBzYW1wbGVzLCBhbmQgd2UgY2FuIGFwcGx5IGBhdGFuMigpYCB0byB0aGVtLg0KDQo+IE5vdGUgdGhhdCAkeCQgYW5kICR5JCBjYW4gYmUgdmVjdG9ycywgc3VjaCB0aGF0ICR2JCBhbmQgJFxiYXJ7dn0kIGFyZSBub3QgY29sdW1uIG1hdHJpY2VzLCBidXQgcmVjdGFuZ3VsYXIuIFRoaXMgY2FuIGJlIHVzZWQgdG8gb3B0aW1pemUgdGhlIGNvZGUgZm9yIHNwZWVkLiBZb3Ugd291bGQgZmlyc3Qgc2VsZWN0IGEgc2FtcGxlIGZyb20gZWFjaCByZWFjaCB3aXRoIHRoZSBzYW1lIHRhcmdldCwgYWRkIHRoZSBjb29yZGluYXRlcyB0byBhIG1hdHJpeC4gVGhlbiBtdWx0aXBseSBhbGwgb2YgdGhlbSB3aXRoIHRoZSBzYW1lIHJvdGF0aW9uIG1hdHJpeC4gVGhpcyBtZWFucyB0aGF0IHlvdSBvbmx5IGNvbnN0cnVjdCB0aGUgcm90YXRpb24gbWF0cml4IGZvciBlYWNoIHRhcmdldCBvbmNlLCBhbmQgYWxsIHRoZSBtYXRyaXggbXVsdGlwbGljYXRpb24gaXMgZG9uZSBhdCB0aGUgc2FtZSB0aW1lIC0gd2l0aCBmZXdlciBsb29wcywgYW5kIGxlc3MgdGltZSBzcGVudCBpbiBSIGludGVycHJldGF0aW9uLiBUaGUgY29kZSB3aWxsIGJlIG1vcmUgY29tcGxpY2F0ZWQgdGhvdWdoLCBzbyB3ZSB3aWxsIG5vdCBkbyB0aGlzIGhlcmUuDQoNCg0KMS4gQ2FsY3VsYXRlIGJhc2VsaW5lICh0cmlhbHMgMzEgLSA0NTogNSByZWFjaGVzIHBlciB0YXJnZXQpDQoNCi0gdXNlIG1vcmUgdHJpYWxzIHRvIGVzdGltYXRlIGJhc2VsaW5lIGJpYXMNCi0gbWFrZSBmdW5jdGlvbiB0byByZW1vdmUgb3V0bGllcnMNCi0gcmVtb3ZlIG91dGxpZXJzIGZyb20gYmFzZWxpbmUgcmVhY2ggZGV2aWF0aW9ucw0KLSBlc3RpbWF0ZSBiYXNlbGluZSBiaWFzZXMgc2VwYXJhdGVseSBmb3IgZWFjaCB0YXJnZXQNCg0KMi4gQ29ycmVjdCByb3RhdGVkIHJlYWNoZXMgZm9yIGJhc2VsaW5lIGRldmlhdGlvbnMNCg0KMy4gUGxvdCBhIGxlYXJuaW5nIGN1cnZlDQoNCjQuIERldGVybWluZSB0aGUgYXN5bXB0b3RpYyBsZXZlbCBvZiBhZGFwdGF0aW9uLiBBbmQgcGVyaGFwcyB0aGUgcmF0ZSBvZiBsZWFybmluZy4NCg0KRG8gd2UganVzdCB0YWtlIHRoZSBhdmVyYWdlIHJlYWNoIGRldmlhdGlvbiBhdCB0aGUgZW5kIG9mIHRoZSA5MCB0cmlhbCBibG9jaywgb3IgZG8gd2UgZml0IGFuIGV4cG9uZW50aWFsIGN1cnZlPw0KDQooNS4gQ2hlY2sgaWYgdGhlIHRvcC11cCBibG9ja3MgYXJlIGFsbCB0aGUgc2FtZSBhcyB3ZWxsPyk=</div>
 
 
 

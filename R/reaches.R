@@ -57,7 +57,7 @@ getBaseline <- function(df){
   trialnums <- c(31:45)
   
   for(subtask in subtasks[c(2:length(subtasks))]){
-    sttn <- schedule$trial_num[which(schedule$subtasks == subtask)]
+    sttn <- schedule$trial_num[which(schedule$subtask == subtask)]
     trialnums <- c(trialnums, sttn[7:9])
   }
   
