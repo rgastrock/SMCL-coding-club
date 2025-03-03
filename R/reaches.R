@@ -1,5 +1,7 @@
 source('R/data.R')
 
+#training reachd deviations----
+
 getAllTraining <- function(){
   
   groups <- c('control', 'cursorjump', 'handview')
@@ -196,6 +198,8 @@ baselineCorrection <- function(baseline = baseline, rotated = rotated){
   return(rotated)
   
 }
+
+# no cursor reach deviations ----
 
 
 

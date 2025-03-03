@@ -51,6 +51,7 @@ Finally, we have written some custom functions for this project, that we want av
 source('R/data.R')
 # scripts for training reaches:
 source('R/reaches.R')
+source('R/figures.R')
 ```
 
 ### Download data
@@ -165,8 +166,22 @@ This new vector $\bar{v}$ now contains the rotated trajectory samples, and we ca
 
 3. Plot a learning curve
 
+```{r, fig.width = 6, gif. height = 4}
+plotTraining()
+```
+
+
 4. Determine the asymptotic level of adaptation. And perhaps the rate of learning.
 
 Do we just take the average reach deviation at the end of the 90 trial block, or do we fit an exponential curve?
 
 (5. Check if the top-up blocks are all the same as well?)
+
+#plot all figures
+
+```{r}
+for(target in c('pdf')){
+  plotTraining(target=target)
+}
+```
+
