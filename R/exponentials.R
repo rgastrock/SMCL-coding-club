@@ -33,7 +33,29 @@ exponentialMSE <- function(par, signal, timepoints=c(0:(length(signal)-1)), mode
 }
 
 
-exponentialFit <- function(signal, timepoints=length(signal), mode='learning', gridpoints=11, gridfits=10, setN0=NULL,asymptoteRange=NULL) {
+exponentialFit <- function(participants=NULL, df, timepoints=length(signal), gridpoints=4, gridfits=4, asymptoteRange=NULL) {
+  
+  
+  # select relevant participants
+  subdf <- NA
+  
+  for (participant in participants) {
+    
+    pdf <- df[which(df$participant == participant),]
+    
+    if (is.data.frame(subdf)) {
+      subdf <- rbind(subdf, pdf)
+    } else {
+      subdf <- pdf
+    }
+    
+  }
+  
+  agdf <- aggregate(reachdeviation_deg ~ trial_num, data=subdf, FUN=mean, na.rm=TRUE)
+  signal <- agdf$reachdeviation_deg
+  timepoints=length(signal)
+  
+  
   
   # set the search grid:
   parvals <- seq(1/gridpoints/2,1-(1/gridpoints/2),1/gridpoints)
@@ -43,31 +65,23 @@ exponentialFit <- function(signal, timepoints=length(signal), mode='learning', g
     asymptoteRange <- c(-1,2)*max(abs(signal), na.rm=TRUE)
   }
   
-  # define the search grid:
-  # if (is.numeric(setN0)) {
-  #   searchgrid <- expand.grid('lambda' = parvals)
-  #   lo <- c(0)
-  #   hi <- c(1)
-  # }
-  if (is.null(setN0)) {
-    searchgrid <- expand.grid('lambda' = parvals,
-                              'N0'     = parvals * diff(asymptoteRange) + asymptoteRange[1] )
-    lo <- c(0,asymptoteRange[1])
-    hi <- c(1,asymptoteRange[2])
-  } else {
-    searchgrid <- expand.grid('lambda' = parvals,
-                              'N0'     = setN0)
-    lo <- c(0,setN0)
-    hi <- c(1,setN0)
-  }
-  # evaluate starting positions:
-  MSE <- apply(searchgrid, FUN=exponentialMSE, MARGIN=c(1), signal=signal, timepoints=timepoints, mode=mode, setN0=setN0)
   
-  # if (is.null(setN0)) {
-  #   X <- data.frame(searchgrid[order(MSE)[1:gridfits],])
-  # } else {
-  #   X <- data.frame('lambda'=searchgrid[order(MSE)[1:gridfits],])
-  # }
+  searchgrid <- expand.grid('lambda' = parvals,
+                            'N0'     = parvals * diff(asymptoteRange) + asymptoteRange[1] )
+  
+  # evaluate starting positions:
+  MSE <- apply(searchgrid, FUN=Reach::exponentialMSE, MARGIN=c(1), signal=signal, timepoints=timepoints)
+  
+  
+  
+  
+  lo <- c(0,asymptoteRange[1])
+  hi <- c(1,asymptoteRange[2])
+  
+  
+  
+  
+  
   
   # run optimx on the best starting positions:
   allfits <- do.call("rbind",
@@ -79,20 +93,13 @@ exponentialFit <- function(signal, timepoints=length(signal), mode='learning', g
                             lower      = lo,
                             upper      = hi,
                             timepoints = timepoints,
-                            signal     = signal,
-                            mode       = mode,
-                            setN0      = setN0 ) )
+                            signal     = signal
+                     ) )
   
   # pick the best fit:
   win <- allfits[order(allfits$value)[1],]
   
-  if (is.null(setN0)) {
-    winpar <- unlist(win[1:2])
-  } else {
-    winpar <- c( 'lambda' = unlist(win[1]), 
-                 'N0'     = setN0)
-    names(winpar) <- c('lambda', 'N0')
-  }
+  winpar <- unlist(win[1:2])
   
   # return the best parameters:
   return(winpar)
@@ -101,19 +108,83 @@ exponentialFit <- function(signal, timepoints=length(signal), mode='learning', g
 
 #fit exponential learning curves----
 
-learningExponentials <- function(){
+groupLearningExponentials <- function(){
   
-  for (group in c('control', 'cursorjump', 'handview')[1]){
+  for (group in c('control', 'cursorjump', 'handview')){
     
     df <- read.csv(sprintf('data/%s/%s_training_reachdevs.csv', group, group), stringsAsFactors = F)
     
-    adf <- aggregate(reachdeviation_deg ~ trial_num, data=df, FUN=mean, na.rm=T)
+    # adf <- aggregate(reachdeviation_deg ~ trial_num, data=df, FUN=mean, na.rm=T)
     
-    exp_par <- exponentialFit(signal = adf$reachdeviation_deg)
-    
+    exp_par <- exponentialFit(participants = unique(df$participant), df=df)
+    print(exp_par)
     
   }
   
   
   
 }
+
+bootStrapExponentials <- function(bootstraps=200) {
+  
+  # set up a cluster:
+  ncores <- parallel::detectCores()
+  clust  <- parallel::makeCluster(max(c(1,floor(ncores*0.80))))
+  # clust  <- parallel::makeCluster(2)
+  
+  parallel::clusterEvalQ(cl=clust, expr="source('R/exponentials.R')")
+  
+  
+  # loop through groups
+  for (group in c('control', 'cursorjump', 'handview')) {
+    
+    # load the group reach training data:
+    df <- read.csv(sprintf('data/%s/%s_training_reachdevs.csv', group, group),
+                   stringsAsFactors = FALSE)
+    
+    # create matrix of randomly sampled participants to bootstrap across participants:
+    participants <- unique(df$participant)
+    BSparticipants <- matrix( sample(participants,
+                                     size=bootstraps*length(participants),
+                                     replace=TRUE),
+                              nrow=bootstraps)
+    
+    # fit an exponential to bootstrapped sets of participants' data:
+    a <- parallel::parApply(cl = clust,
+                  X = BSparticipants,
+                  MARGIN = 1,
+                  FUN = exponentialFit,
+                  df = df)
+    
+    # write the fits to a file:
+    outdf <- as.data.frame(t(a))
+    write.csv(outdf, file=sprintf('data/%s/%s_expfits.csv',group,group))
+    
+  }
+  
+  # stop the cluster and free the cores for other tasks:
+  parallel::stopCluster(clust)
+  
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
