@@ -127,3 +127,128 @@ plotTraining <- function(target='inline'){
   }
   
 }
+
+plotFittedExponentials <- function(target='inline') {
+  
+  setupFigureFile(target=target,
+                  width = 8,
+                  height=6,
+                  dpi=300,
+                  sprintf('doc/fig2_training.%s', target))
+  
+  groups <- c('control', 'cursorjump', 'handview')
+  
+  colors <- getColors()
+  
+  plot(NA, NA,
+       main='learning', xlab='trial', ylab='reach deviation [°]',
+       xlim=c(0,91), ylim=c(-10,40),
+       ax=F, bty='n')
+  
+  lines(x=c(0,91),
+        y=c(30,30),
+        col='#999999',
+        lw=2,
+        lty=2)
+  lines(x=c(0,91),
+        y=c(0,0),
+        col='#999999',
+        lw=2,
+        lty=2)
+  
+  
+  timepoints <- seq(0,89,0.1)
+  
+  groups <- c('control', 'cursorjump', 'handview')
+  
+  # loop through groups
+  for (group_no in c(1:length(groups))) {
+    
+    group <- groups[group_no]
+    
+    # load the bootstrapped exponential fits:
+    expfits <- read.csv(sprintf('data/%s/%s_expfits.csv', group, group),
+                        stringsAsFactors = FALSE)
+    
+    # calculate the 95% CI for lambda and N0
+    lambdaCI <- quantile(expfits$lambda, c(0.025, 0.975))
+    N0CI     <- quantile(expfits$N0, c(0.025, 0.975))
+    
+    
+    N0 <- unname(N0CI[1])
+    lambda <- unname(lambdaCI[1])
+    par <- c('N0'=N0,
+             'lambda'=lambda)
+    fittedcurve <- exponentialModel(par=par,
+                                    timepoints=timepoints)
+    
+    X <- timepoints + 1
+    Y <- fittedcurve$output
+    
+    N0 <- unname(N0CI[2])
+    lambda <- unname(lambdaCI[2])
+    par <- c('N0'=N0,
+             'lambda'=lambda)
+    fittedcurve <- exponentialModel(par=par,
+                                    timepoints=timepoints)
+    
+    X <- c(X , rev(timepoints)+1)
+    Y <- c(Y , rev(fittedcurve$output))
+    
+    
+    polygon( x = X,
+             y = Y,
+             border=NA,
+             col = colors$tr[group_no])
+    
+  }
+  
+  
+  # loop through groups
+  for (group_no in c(1:length(groups))) {
+    
+    group <- groups[group_no]
+    
+    # load the bootstrapped exponential fits:
+    expfits <- read.csv(sprintf('data/%s/%s_expfits.csv', group, group),
+                        stringsAsFactors = FALSE)
+    
+    # calculate the 95% CI for lambda and N0
+    lambdaCI <- quantile(expfits$lambda, c(0.025, 0.50, 0.975))
+    N0CI     <- quantile(expfits$N0, c(0.025, 0.50, 0.975))
+    
+    N0 <- unname(N0CI[2])
+    lambda <- unname(lambdaCI[2])
+    
+    par <- c('N0'=N0,
+             'lambda'=lambda)
+    
+    fittedcurve <- exponentialModel(par=par,
+                                    timepoints=timepoints)
+    
+    
+    lines(x=timepoints+1,
+          y=fittedcurve$output,
+          col = colors$op[group_no])
+    
+  }
+  
+  legend( x = 70,
+          y = 12,
+          legend = groups,
+          col = colors$op[c(1:length(groups))],
+          bty='n',
+          lty=1,
+          # title='groups:',
+          bg='#FFFFFF')
+  
+  axis(side = 1,
+       at = c(1,30,60,90))
+  axis(side = 2,
+       at = c(0,10,20,30))
+  
+  if (target %in% c('pdf','svg','png','tiff')) {
+    dev.off()
+  }
+  
+}
