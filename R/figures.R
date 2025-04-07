@@ -1,4 +1,7 @@
-# general plotting functions----
+
+
+# generic plotting functions -----
+
 setupFigureFile <- function(target='inline',width=8,height=6,dpi=300,filename) {
   
   if (target == 'pdf') {
@@ -55,53 +58,73 @@ getColors <- function() {
   
 }
 
-#actual plotting ----
-plotTraining <- function(target='inline'){
+# training plots -----
+
+plotTraining <- function(target='inline') {
+  
   
   setupFigureFile(target=target,
                   width = 8,
-                  height = 6,
-                  dpi = 300,
+                  height=6,
+                  dpi=300,
                   sprintf('doc/fig2_training.%s', target))
   
   groups <- c('control', 'cursorjump', 'handview')
+  
   colors <- getColors()
   
   plot(NA, NA,
-       main = 'learning', xlab = 'trial', ylab = 'reach deviation (deg)',
-       xlim = c(0, 91), ylim = c(-10, 40),
-       ax = F, bty = 'n')
+       main='learning', xlab='trial', ylab='reach deviation [°]',
+       xlim=c(0,91), ylim=c(-10,40),
+       ax=F, bty='n')
   
-  lines(x=c(0,91), y=c(30,30), col='#999999', lty=2, lwd=2)
+  lines(x=c(0,91),
+        y=c(30,30),
+        col='#999999',
+        lw=2,
+        lty=2)
+  lines(x=c(0,91),
+        y=c(0,0),
+        col='#999999',
+        lw=2,
+        lty=2)
   
-  for(group_no in c(1:length(groups))){
+  for (group_no in c(1:length(groups))) {
     
     group <- groups[group_no]
     
-    df <- read.csv(filename <- sprintf('data/%s/%s_training_reachdevs.csv', group, group), stringsAsFactors = F)
+    
+    df <- read.csv(sprintf('data/%s/%s_training_reachdevs.csv', group, group),
+                   stringsAsFactors = F)
+    
     
     CI <- aggregate(reachdeviation_deg ~ trial_num,
-                     data = df, 
-                     FUN = Reach::getConfidenceInterval)
+                    data = df,
+                    FUN = Reach::getConfidenceInterval)
     
     lo <- CI$reachdeviation_deg[,1]
     hi <- CI$reachdeviation_deg[,2]
     
-    polygon(x = c(CI$trial_num, rev(CI$trial_num)),
-            y = c(lo, rev(hi)),
-            border = NA,
-            col = colors$tr[group_no])
+    polygon( x = c( CI$trial_num, rev(CI$trial_num)),
+             y = c( lo, rev(hi)),
+             border=NA,
+             col = colors$tr[group_no])
     
   }
   
-  for(group_no in c(1:length(groups))){
+  
+  
+  for (group_no in c(1:length(groups))) {
     
     group <- groups[group_no]
     
-    df <- read.csv(filename <- sprintf('data/%s/%s_training_reachdevs.csv', group, group), stringsAsFactors = F)
+    
+    df <- read.csv(sprintf('data/%s/%s_training_reachdevs.csv', group, group),
+                   stringsAsFactors = F)
+    
     
     avg <- aggregate(reachdeviation_deg ~ trial_num,
-                     data = df, 
+                     data = df,
                      FUN = mean,
                      na.rm = T)
     
@@ -110,23 +133,26 @@ plotTraining <- function(target='inline'){
     
   }
   
-  legend(x = 60, y = 15,
-         legend = groups,
-         col = colors$op[c(1:length(groups))],
-         bty = 'n',
-         lty = 1, lwd = 2)#,
-         #title = 'groups:')
+  legend( x = 70,
+          y = 12,
+          legend = groups,
+          col = colors$op[c(1:length(groups))],
+          bty='n',
+          lty=1,
+          # title='groups:',
+          bg='#FFFFFF')
   
   axis(side = 1,
-       at = c(1, 30, 60, 90))
+       at = c(1,30,60,90))
   axis(side = 2,
-       at = c(0, 10, 20, 30))
+       at = c(0,10,20,30))
   
-  if(target %in% c('pdf', 'svg', 'png', ' tiff')){
+  if (target %in% c('pdf','svg','png','tiff')) {
     dev.off()
   }
   
 }
+
 
 plotFittedExponentials <- function(target='inline') {
   
@@ -134,7 +160,7 @@ plotFittedExponentials <- function(target='inline') {
                   width = 8,
                   height=6,
                   dpi=300,
-                  sprintf('doc/fig2_training.%s', target))
+                  sprintf('doc/fig3_exponentials.%s', target))
   
   groups <- c('control', 'cursorjump', 'handview')
   
@@ -250,5 +276,108 @@ plotFittedExponentials <- function(target='inline') {
   if (target %in% c('pdf','svg','png','tiff')) {
     dev.off()
   }
+  
+}
+
+
+# nocursor plots -----
+
+plotNoCursors <- function(target='inline') {
+  
+  setupFigureFile(target=target,
+                  width = 8,
+                  height=6,
+                  dpi=300,
+                  sprintf('doc/fig4_nocursors.%s', target))
+  
+  groups <- c('control', 'cursorjump', 'handview')
+  
+  colors <- getColors()
+  
+  plot(NA, NA,
+       main='no cursors', xlab='strategy', ylab='reach deviation [°]',
+       xlim=c(0,3), ylim=c(-10,40),
+       ax=F, bty='n')
+  
+  lines(x=c(0,3),
+        y=c(30,30),
+        col='#999999',
+        lw=2,
+        lty=2)
+  lines(x=c(0,3),
+        y=c(0,0),
+        col='#999999',
+        lw=2,
+        lty=2)
+  
+  for (group_no in c(1:length(groups))) {
+    
+    group <- groups[group_no]
+    
+    
+    df <- read.csv(sprintf('data/%s/%s_nocursors_reachdevs.csv', group, group),
+                   stringsAsFactors = F)
+    
+    
+    CI <- aggregate(reachdeviation_deg ~ strategy,
+                    data = df,
+                    FUN = Reach::getConfidenceInterval)
+    
+    lo <- CI$reachdeviation_deg[,1]
+    hi <- CI$reachdeviation_deg[,2]
+    
+    polygon( x = c( CI$strategy, rev(CI$strategy))+1,
+             y = c( lo, rev(hi)),
+             border=NA,
+             col = colors$tr[group_no]) 
+    
+    avg <- aggregate(reachdeviation_deg ~ strategy,
+                     data = df,
+                     FUN = mean,
+                     na.rm = T)
+    # print(avg)
+    lines(x=c(1,2), avg$reachdeviation_deg, 
+          col = colors$op[group_no])
+    
+    
+    participant_avg <- aggregate(reachdeviation_deg ~ strategy + participant,
+                                 data = df,
+                                 FUN = mean,
+                                 na.rm = T)
+    
+    without <- participant_avg$reachdeviation_deg[which(participant_avg$strategy == 0)]
+    with <- participant_avg$reachdeviation_deg[which(participant_avg$strategy == 1)]
+    
+    points(x = rep(group_no/4, length(without)),
+           y = without,
+           pch=16,
+           cex=1.5,
+           col = colors$tr[group_no])
+    
+    points(x = 2+rep(group_no/4, length(with)),
+           y = with,
+           pch=16,
+           cex=1.5,
+           col = colors$tr[group_no])
+    
+  }
+  
+  axis(side = 1,
+       at = c(1,2),
+       labels=c('without','with'))
+  
+  axis(side = 2,
+       at = c(0,15,30))
+  
+  
+  legend( x = 0,
+          y = 45,
+          legend = groups,
+          col = colors$op[c(1:length(groups))],
+          bty='n',
+          lty=1,
+          # title='groups:',
+          bg='#FFFFFF',
+          xpd=TRUE)
   
 }

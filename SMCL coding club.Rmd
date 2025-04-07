@@ -1,3 +1,4 @@
+
 ---
 title: "SMCL Coding Club"
 output:
@@ -7,10 +8,6 @@ output:
   pdf_document: default
   word_document: default
 ---
-
-```{r}
-#
-```
 
 # Pre-amble
 
@@ -51,8 +48,6 @@ Finally, we have written some custom functions for this project, that we want av
 source('R/data.R')
 # scripts for training reaches:
 source('R/reaches.R')
-source('R/figures.R')
-source('R/statistics.R')
 ```
 
 ### Download data
@@ -70,7 +65,7 @@ getData()
 In this experiment participants adapted to a 30 degree rotation, with various kinds of feedback:
 
 1. Regular cursor feedback: "control"
-2. Cursorjump feedback , where the rotation is shown at 1/3rd the reach on each training trial: "cursorjump"
+2. Cursorjump feedback, where the rotation is shown at 1/3rd the reach on each training trial: "cursorjump"
 3. A group where both the cursor and hand were visible during training: "handview"
 4. A group that was explained the rotation beforehand: "instructed"
 
@@ -167,9 +162,11 @@ This new vector $\bar{v}$ now contains the rotated trajectory samples, and we ca
 
 3. Plot a learning curve
 
-```{r, fig.width = 6, fig.height = 4}
+
+```{r fig.width=8, fig.height=6}
 plotTraining()
 ```
+
 
 
 4. Determine the asymptotic level of adaptation. And perhaps the rate of learning.
@@ -195,9 +192,7 @@ Bayesian statistics:
 - ANOVA, like above
 - or F-test
 
-
-
-We do a Bayesian analysis on the extent of learning (block 4 from above, trials 76-90):
+We do a Bayesian analysis on the extent of learning (block 3 from above, trials 76-90):
 
 ```{r}
 learningCurveBayes()
@@ -209,16 +204,43 @@ Exponential curve fitting:
 - asymptote,
 - rate of learning
 
-
-Do we just take the average reach deviation at the end of the 90 trial block, or do we fit an exponential curve?
-
-(5. Check if the top-up blocks are all the same as well?)
-
-#plot all figures
-
-```{r}
-for(target in c('pdf')){
-  plotTraining(target=target)
-}
+```{r fig.width=8, fig.height=6}
+plotFittedExponentials()
 ```
 
+Perhaps there control group learns a bit slower than the other groups. Let's check the 95% Confidence Intervals.
+
+```{r}
+analyseExponentials()
+```
+
+So yes, the control group learns a little slower than the other two groups.
+
+# No-cursor reaches
+
+There are two kinds no-cursor reach blocks: with and without strategy. Without strategy is supposed to measure classic implicit adaptation, while with strategy is supposed to cpature both implicit and explicit adapation.
+
+- implicit: without-strategy no-cursor reaches
+- explicit: with-strategy no-cursor reaches minus the without-strategy no-cursor reaches
+
+We will use all of the no-cursor reach deviations. Baseline both the with and without strategy no-cursor using the aligned data. Then plot te group averages with confidence intervals, and the individual data.
+
+```{r}
+plotNoCursors()
+```
+
+
+
+# Plot all figures
+
+```{r}
+
+for (target in c('pdf')) {
+
+  plotTraining(target=target)
+  plotFittedExponentials(target=target)
+  plotNoCursors(target=target)
+
+}
+
+```

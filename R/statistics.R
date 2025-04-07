@@ -1,3 +1,9 @@
+
+
+# learning curve statistics ----
+
+## regular NHST / Anova ----
+
 getANOVAdata <- function() {
   
   aov_data <- NA
@@ -28,7 +34,7 @@ getANOVAdata <- function() {
     
   }
   
-  aov_data <- aov_data[which(aov_data$participant != '6468c3'),]
+  # aov_data <- aov_data[which(aov_data$participant != '6468c3'),]
   
   aov_data$group <- as.factor(aov_data$group)
   aov_data$block <- as.factor(aov_data$block)
@@ -53,12 +59,13 @@ learningCurveANOVA <- function() {
   
 }
 
+## Bayesian statistics ---- 
 
 learningCurveBayes <- function() {
   
   aov_data <- getANOVAdata()
   
-  # baov <- BayesFactor::anovaBF(reachdeviation_deg ~ group + block,
+  # baov <- BayesFactor::anovaBF(reachdeviation_deg ~ group * block + participant,
   #                              data = aov_data,
   #                              whichRandom = "participant",
   #                              progress=FALSE)
@@ -69,9 +76,32 @@ learningCurveBayes <- function() {
   
   baov <- BayesFactor::anovaBF(reachdeviation_deg ~ group,
                                data = block3,
-                               whichRandom = "participant",
+                               # whichRandom = "participant",
                                progress=FALSE)
   
   print(baov)
+  
+}
+
+
+
+## analyse bootstrapped exponentials -----
+
+analyseExponentials <- function() {
+  
+  # loop through groups
+  for (group in c('control', 'cursorjump', 'handview')) {
+    
+    # load the bootstrapped exponential fits:
+    expfits <- read.csv(sprintf('data/%s/%s_expfits.csv', group, group),
+                        stringsAsFactors = FALSE)
+    
+    # calculate the 95% CI for lambda and N0
+    lambdaCI <- quantile(expfits$lambda, c(0.025, 0.50, 0.975))
+    N0CI     <- quantile(expfits$N0, c(0.025, 0.50, 0.975))
+    
+    cat(sprintf('lambda 95%% CI for %s: mean=%0.3f, range: %0.3f, %0.3f\n', group, lambdaCI[2], lambdaCI[1], lambdaCI[3]))
+    
+  }
   
 }
