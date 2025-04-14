@@ -1,4 +1,3 @@
-
 ---
 title: "SMCL Coding Club"
 output:
@@ -228,7 +227,21 @@ We will use all of the no-cursor reach deviations. Baseline both the with and wi
 ```{r}
 plotNoCursors()
 ```
+So it seems there are is an effect of using a strategy in the no-cursor reaches, except in the control group group. Let's test this. First with an ANOVA, with post-hoc follow-ups:
 
+```{r}
+doNoCursorANOVA()
+```
+
+We first verified that there is no effect of strategy use in the control group. Then we compared the two groups that seem to have a strategy with the control group, within the with and without strategy no-cursor reach deviations. And potentially compare these two groups with each other as well, in the no-strategy case. So there will be 6 post-hoc comparisons.
+
+First, there is no effect of strategy use in the control group. This means, we can use it to see if strategies were evoked in the other two groups.
+
+Comparing the handview and cursorjump group with-strategy no cursor reaches with those in the control group, shows a difference in both case. This means that in these two groups there were explicit strategies.
+
+Then, the cursorjump group does not have significantly lower reach deviations in the without-strategy no-cursor blocks as compared to the control group. That means the implicit adaptation is not different between these two groups.
+
+The handview group has a difference in the without strategy no-cursor reaches with both the control group and the cursorjump group. This means that implicit adaptation is lower in thsi group as compared to others.
 
 
 # Plot all figures

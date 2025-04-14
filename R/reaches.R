@@ -1,4 +1,4 @@
-source('data.R')
+
 
 # training reach deviations ----
 
@@ -355,5 +355,39 @@ getGroupNoCursors <- function(group) {
   }
   
   return(NoCursorReaches)
+  
+}
+
+
+
+getNoCursorData <- function() {
+  
+  groups <- c('control', 'cursorjump', 'handview')
+  
+  all_data <- NA
+  
+  for (group_no in c(1:length(groups))) {
+    
+    group <- groups[group_no]
+    
+    df <- read.csv(sprintf('data/%s/%s_nocursors_reachdevs.csv', group, group),
+                   stringsAsFactors = F)
+    
+    participant_avg <- aggregate(reachdeviation_deg ~ strategy + participant,
+                                 data = df,
+                                 FUN = mean,
+                                 na.rm = T)
+    
+    participant_avg$group <- group
+    
+    if (is.data.frame(all_data)) {
+      all_data <- rbind(all_data, participant_avg)
+    } else {
+      all_data <- participant_avg
+    }
+    
+  }
+  
+  return(all_data)
   
 }

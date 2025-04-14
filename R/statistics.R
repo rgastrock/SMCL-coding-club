@@ -105,3 +105,33 @@ analyseExponentials <- function() {
   }
   
 }
+
+
+# no-cursor statistics ----
+
+## regular NHST / Anova ----
+
+doNoCursorANOVA <- function() {
+  
+  df <- getNoCursorData()
+  
+  aovm <- afex::aov_ez( id = 'participant',
+                        dv = 'reachdeviation_deg',
+                        data = df,
+                        between = c('group'),
+                        within = c('strategy'))
+  
+  print(aovm)
+  
+  cellmeans <- emmeans::emmeans(aovm, specs=c('group','strategy'))
+  
+  contrasts <- list('control'                = c(1, 0, 0,-1, 0, 0),
+                    'NS_control_cursorjump'  = c(1,-1, 0, 0, 0, 0),
+                    'NS_control_handview'    = c(1, 0,-1, 0, 0, 0),
+                    'WS_control_cursorjump'  = c(0, 0, 0, 1,-1, 0),
+                    'WS_control_handview'    = c(0, 0, 0, 1, 0,-1),
+                    'NS_cursorjump_handview' = c(0, 1,-1, 0, 0, 0))
+  
+  emmeans::contrast(cellmeans, contrasts, adjust='sidak')
+  
+}

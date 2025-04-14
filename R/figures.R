@@ -294,6 +294,9 @@ plotNoCursors <- function(target='inline') {
   
   colors <- getColors()
   
+  df <- getNoCursorData()
+  
+  
   plot(NA, NA,
        main='no cursors', xlab='strategy', ylab='reach deviation [°]',
        xlim=c(0,3), ylim=c(-10,40),
@@ -314,13 +317,10 @@ plotNoCursors <- function(target='inline') {
     
     group <- groups[group_no]
     
-    
-    df <- read.csv(sprintf('data/%s/%s_nocursors_reachdevs.csv', group, group),
-                   stringsAsFactors = F)
-    
+    gdf <- df[df$group == group,]
     
     CI <- aggregate(reachdeviation_deg ~ strategy,
-                    data = df,
+                    data = gdf,
                     FUN = Reach::getConfidenceInterval)
     
     lo <- CI$reachdeviation_deg[,1]
@@ -332,7 +332,7 @@ plotNoCursors <- function(target='inline') {
              col = colors$tr[group_no]) 
     
     avg <- aggregate(reachdeviation_deg ~ strategy,
-                     data = df,
+                     data = gdf,
                      FUN = mean,
                      na.rm = T)
     # print(avg)
@@ -340,13 +340,9 @@ plotNoCursors <- function(target='inline') {
           col = colors$op[group_no])
     
     
-    participant_avg <- aggregate(reachdeviation_deg ~ strategy + participant,
-                                 data = df,
-                                 FUN = mean,
-                                 na.rm = T)
     
-    without <- participant_avg$reachdeviation_deg[which(participant_avg$strategy == 0)]
-    with <- participant_avg$reachdeviation_deg[which(participant_avg$strategy == 1)]
+    without <- gdf$reachdeviation_deg[which(gdf$strategy == 0)]
+    with <- gdf$reachdeviation_deg[which(gdf$strategy == 1)]
     
     points(x = rep(group_no/4, length(without)),
            y = without,
