@@ -1,5 +1,4 @@
 
-
 # generic plotting functions -----
 
 setupFigureFile <- function(target='inline',width=8,height=6,dpi=300,filename) {
@@ -278,6 +277,205 @@ plotFittedExponentials <- function(target='inline') {
   }
   
 }
+
+
+plotAsymptotes <- function(target='inline') {
+  
+  setupFigureFile(target=target,
+                  width = 3,
+                  height=3,
+                  dpi=300,
+                  sprintf('doc/fig2c_asymptotes.%s', target))
+  
+  groups <- c('control', 'cursorjump', 'handview')
+  
+  colors <- getColors()
+  
+  plot(NA, NA,
+       main='', xlab='group', ylab='asymptote [°]',
+       xlim=c(0,4), ylim=c(-10,40),
+       ax=F, bty='n')
+  
+  lines(x=c(0,4),
+        y=c(30,30),
+        col='#999999',
+        lw=2,
+        lty=2)
+  lines(x=c(0,4),
+        y=c(0,0),
+        col='#999999',
+        lw=2,
+        lty=2)
+  
+  for (group_no in c(1:length(groups))) {
+    
+    group <- groups[group_no]
+    
+    df <- read.csv(file = sprintf('data/%s/%s_participant_expfits.csv',group,group),
+                   stringsAsFactors = FALSE)
+    
+    colop = colors$op[group_no]
+    coltr = colors$tr[group_no]
+    
+    points(x=rep(group_no, length(df$participant)),
+           y=df$N0,
+           col=coltr,
+           pch=16)
+    
+    
+    CI <- Reach::getConfidenceInterval(data=df$N0)
+    avg <- mean(df$N0)
+    
+    polygon( x = c(-.4,-.2,-.2,-.4)+group_no,
+             y = rep(CI, each=2),
+             border=NA,
+             col=coltr)
+    
+    lines( x = c(-.4,-.2)+group_no,
+           y = rep(avg,2),
+           col=colop)
+    
+    grdens <- density(df$N0,
+                      n=100,
+                      from=-10,
+                      to=40)
+    
+    polygon( x = (3*c(grdens$y,0,0))+group_no+0.2,
+             y = c(seq(from=-10,to=40,length.out=100),40,-10),
+             border=NA,
+             col=coltr)
+    
+    lines(x = (3*c(grdens$y))+group_no+0.2,
+          y = seq(from=-10,to=40,length.out=100),
+          col=colop)
+    
+    
+  }
+  
+  
+  axis(side = 1,
+       at = c(1,2,3),
+       labels = groups)
+  axis(side = 2,
+       at = c(0,10,20,30))
+  
+  
+  if (target %in% c('pdf','svg','png','tiff')) {
+    dev.off()
+  }
+  
+  
+}
+
+
+plotLearningRates <- function(target='inline') {
+  
+  setupFigureFile(target=target,
+                  width = 3,
+                  height=3,
+                  dpi=300,
+                  sprintf('doc/fig2c_learningrates.%s', target))
+  
+  groups <- c('control', 'cursorjump', 'handview')
+  
+  colors <- getColors()
+  
+  plot(NA, NA,
+       main='', xlab='group', ylab='learning rate [% asymptote/trial]',
+       xlim=c(0,4), ylim=c(-1/3,4/3),
+       ax=F, bty='n')
+  
+  lines(x=c(0,4),
+        y=c(1,1),
+        col='#999999',
+        lw=2,
+        lty=2)
+  lines(x=c(0,4),
+        y=c(0,0),
+        col='#999999',
+        lw=2,
+        lty=2)
+  
+  for (group_no in c(1:length(groups))) {
+    
+    group <- groups[group_no]
+    
+    df <- read.csv(file = sprintf('data/%s/%s_participant_expfits.csv',group,group),
+                   stringsAsFactors = FALSE)
+    
+    colop = colors$op[group_no]
+    coltr = colors$tr[group_no]
+    
+    points(x=rep(group_no, length(df$participant)),
+           y=df$lambda,
+           col=coltr,
+           pch=16)
+    
+    
+    CI <- Reach::getConfidenceInterval(data=df$lambda)
+    avg <- mean(df$lambda)
+    
+    polygon( x = c(-.4,-.2,-.2,-.4)+group_no,
+             y = rep(CI, each=2),
+             border=NA,
+             col=coltr)
+    
+    lines( x = c(-.4,-.2)+group_no,
+           y = rep(avg,2),
+           col=colop)
+    
+    grdens <- density(df$lambda,
+                      n=100,
+                      from=-0.1,
+                      to=1.1)
+    
+    polygon( x = (0.3*c(grdens$y,0,0))+group_no+0.2,
+             y = c(seq(from=-0.1,to=1.1,length.out=100),1.1,-0.1),
+             border=NA,
+             col=coltr)
+    
+    lines(x = (0.3*c(grdens$y))+group_no+0.2,
+          y = seq(from=-0.1,to=1.1,length.out=100),
+          col=colop)
+    
+    
+  }
+  
+  
+  axis(side = 1,
+       at = c(1,2,3),
+       labels = groups)
+  axis(side = 2,
+       at = c(0,0.5,1))
+  
+  
+  if (target %in% c('pdf','svg','png','tiff')) {
+    dev.off()
+  }
+  
+  
+}
+
+
+fig2_learning <- function() {
+  
+  
+  layout( mat = matrix(c(1,1,1,2,3,4),ncol=3,nrow=2,byrow = TRUE) )
+  
+  par(mar=c(4,4,2.3,0.1))
+  
+  plotTraining(target='inline')
+  
+  plotFittedExponentials(target='inline')
+  
+  plotAsymptotes(target='inline')
+  
+  plotLearningRates(target='inline')
+  
+  
+  
+}
+
 
 
 # nocursor plots -----

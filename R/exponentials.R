@@ -1,6 +1,5 @@
 
 
-
 # function optimization -----
 
 exponentialModel <- function(par, timepoints) {
@@ -163,6 +162,59 @@ bootstrapExponentials <- function(bootstraps=1000) {
     outdf <- as.data.frame(t(a))
     write.csv(outdf,
               file=sprintf('data/%s/%s_expfits.csv',group,group),
+              row.names = FALSE)
+    
+  }
+  
+  # stop the cluster and free the cores for other tasks:
+  parallel::stopCluster(clust)
+  
+}
+
+
+participantsExponentials <- function() {
+  
+  # set up a cluster:
+  ncores <- parallel::detectCores()
+  clust  <- parallel::makeCluster(max(c(1,floor(ncores*0.40))))
+  
+  parallel::clusterEvalQ(cl=clust, source('R/exponentials.R'))
+  
+  # loop through groups
+  for (group in c('control', 'cursorjump', 'handview')) {
+    
+    cat('working on group:', group, '\n')
+    
+    # load the group reach training data:
+    df <- read.csv(sprintf('data/%s/%s_training_reachdevs.csv', group, group),
+                   stringsAsFactors = FALSE)
+    
+    # create matrix of randomly sampled participants to bootstrap across participants:
+    participants <- unique(df$participant)
+    
+    # BSparticipants <- matrix( sample(participants,
+    #                                  size=bootstraps*length(participants),
+    #                                  replace=TRUE),
+    #                           nrow=bootstraps)
+    
+    participants <- matrix(participants, 
+                           nrow=length(participants),
+                           ncol=1)
+    
+    # fit an exponential to bootstrapped sets of participants' data:
+    a <- parallel::parApply(cl = clust,
+                            X = participants,
+                            MARGIN = 1,
+                            FUN = exponentialFit,
+                            df = df)
+    
+    # write the fits to a file:
+    outdf <- as.data.frame(t(a))
+    
+    outdf$participant <- unique(df$participant)
+    
+    write.csv(outdf,
+              file=sprintf('data/%s/%s_participant_expfits.csv',group,group),
               row.names = FALSE)
     
   }
